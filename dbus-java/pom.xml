@@ -4,20 +4,55 @@
     
     <parent>
         <groupId>org.freedesktop.dbus</groupId>
-        <artifactId>libdbus-java-maven-parent</artifactId>
+        <artifactId>dbus-java-maven-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../libdbus-java-maven-parent</relativePath>
+        <relativePath>../dbus-java-maven-parent</relativePath>
     </parent>
 
-    <artifactId>libdbus-java</artifactId>
+    <artifactId>dbus-java</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <libdbus-java.sources>${project.build.directory}/generated-sources/libdbus-java</libdbus-java.sources>
+        <dbus-java.sources>${project.build.directory}/generated-sources/dbus-java</dbus-java.sources>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>cx.ath.matthew</groupId>
+            <artifactId>libutils-java</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cx.ath.matthew</groupId>
+            <artifactId>libdebug-java</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cx.ath.matthew</groupId>
+            <artifactId>libunix-java</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <configuration>
+                    <url>${dbus-java.repository}</url>
+                    <fromFile>${dbus-java.archive}</fromFile>
+                    <toDir>${dbus-java.downloadDir}</toDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>download-single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -29,8 +64,8 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <echo>Uncompressing libdbus-java Java sources...</echo>
-                                <untar compression="gzip" src="${project.build.directory}/libdbus-java/${libdbus-java.archive}" dest="${libdbus-java.sources}">
+                                <echo>Uncompressing dbus-java Java sources...</echo>
+                                <untar compression="gzip" src="${project.build.directory}/dbus-java/${dbus-java.archive}" dest="${dbus-java.sources}">
                                     <patternset>
                                         <include name="**/*.java"/>
                                         
@@ -56,7 +91,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${libdbus-java.sources}</source>
+                                <source>${dbus-java.sources}</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -69,6 +104,20 @@
                     <source>${java.source.version}</source>
                     <target>${java.target.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

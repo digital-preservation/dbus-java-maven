@@ -3,15 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>org.freedesktop.dbus</groupId>
-    <artifactId>libdbus-java-maven-parent</artifactId>
+    <artifactId>dbus-java-maven-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
    
     <properties>
         <java.source.version>1.6</java.source.version>
         <java.target.version>1.6</java.target.version>
-        <libdbus-java.version>1.13</libdbus-java.version>
-        <libdbus-java.archive>libdbus-java-${libdbus-java.version}.tar.gz</libdbus-java.archive>
+        
+        <dbus-java.version>2.7</dbus-java.version>
+        <dbus-java.repository>http://dbus.freedesktop.org/releases/dbus-java/</dbus-java.repository>
+        <dbus-java.archive>dbus-java-${dbus-java.version}.tar.gz</dbus-java.archive>
+        <dbus-java.downloadDir>${project.build.directory}/dbus-java</dbus-java.downloadDir>
     </properties>
    
     <build>
@@ -44,26 +47,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>wagon-maven-plugin</artifactId>
-                <configuration>
-                    <url>http://dbus.freedesktop.org/releases/dbus-java/</url>
-                    <fromFile>${libdbus-java.archive}</fromFile>
-                    <toDir>${project.build.directory}/libdbus-java</toDir>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>download-single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
         
     </build>
    
