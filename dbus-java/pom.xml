@@ -58,6 +58,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>ant-unzip</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>run</goal>
@@ -75,11 +76,37 @@
                                     </patternset>
                                     <cutdirsmapper dirs="1"/>
                                 </untar>
+                                <echo>Uncompressing dbus-java Java resource bundle messages...</echo>
+                                <untar compression="gzip" src="${project.build.directory}/dbus-java/${dbus-java.archive}" dest="${dbus-java.sources}-messages">
+                                    <patternset>
+                                        <include name="**/*.po"/>
+                                    </patternset>
+                                    <cutdirsmapper dirs="2"/>
+                                </untar>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>ant-resources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Generating Resource Bundles...</echo>
+                                <exec executable="msgfmt" dir="${dbus-java.sources}-messages" failonerror="true">
+                                    <arg line="--java2 -r dbusjava_localized -d ${project.build.outputDirectory} -l en_GB en_GB.po"/>
+                                </exec>
+                                <exec executable="msgfmt" dir="${dbus-java.sources}-messages" failonerror="true">
+                                    <arg line="--java2 -r dbusjava_localized -d ${project.build.outputDirectory} en_GB.po"/>
+                                </exec>
                             </tasks>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
