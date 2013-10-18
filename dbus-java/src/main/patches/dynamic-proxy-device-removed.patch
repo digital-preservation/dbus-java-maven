@@ -1,0 +1,14 @@
+--- /home/dev/Downloads/dbus-java-2.7/org/freedesktop/dbus/DBusConnection.java	2009-11-01 13:53:27.000000000 +0000
++++ org/freedesktop/dbus/DBusConnection.java	2013-10-18 14:35:10.921110083 +0100
+@@ -361,7 +361,10 @@
+             }
+          }
+ 
+-         if (ifcs.size() == 0) throw new DBusException(_("Could not find an interface to cast to"));
++         if (ifcs.size() == 0) {
++           Debug.print(Debug.WARN, _("Could not find an interface to cast to"));
++           ifcs.add(DBusInterface.class);
++         }
+ 
+          RemoteObject ro = new RemoteObject(source, path, null, false);
+          DBusInterface newi = (DBusInterface) 
