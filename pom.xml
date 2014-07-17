@@ -3,13 +3,49 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>org.freedesktop.dbus</groupId>
-    <artifactId>dbus-java-maven-aggregator</artifactId>
+    <artifactId>tna-dbus-java-maven-aggregator_1.0</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+   <scm>
+        <connection>scm:git:git@dri-dev-scm1.web.local:dri-external-software/dbus-java-maven.git</connection>
+        <developerConnection>scm:git:git@dri-dev-scm1.web.local:dri-external-software/dbus-java-maven.git</developerConnection>
+        <url>https://dri-dev-scm1.web.local/dri-external-software/dbus-java-maven.git</url>
+      <tag>HEAD</tag>
+  </scm>
+
     
     <modules>
         <module>dbus-java-maven-parent</module>
         <module>dbus-java</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <!-- used with mvn -DreleaseProfiles=live-deploy release:perform to release to live -->
+            <id>live-deploy</id>
+            <distributionManagement>
+                <repository>
+                    <id>inf-live-nexus</id>
+                    <name>inf-live-nexus-releases</name>
+                    <url>http://localhost:8089/nexus/content/repositories/releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <!-- used for Artifactory deployment - ensure settings.xml file has these repository ids in the servers section -->
+    <distributionManagement>
+        <repository>
+            <id>wb-d-tfs2.web.local-releases</id>
+            <name>wb-d-tfs2.web.local-releases</name>
+            <url>http://wb-d-tfs2.web.local:8081/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>wb-d-tfs2.web.local-snapshots</id>
+            <name>wb-d-tfs2.web.local-snapshots</name>
+            <url>http://wb-d-tfs2.web.local:8081/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
     
 </project>

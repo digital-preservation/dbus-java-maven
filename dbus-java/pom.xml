@@ -4,7 +4,7 @@
     
     <parent>
         <groupId>org.freedesktop.dbus</groupId>
-        <artifactId>dbus-java-maven-parent</artifactId>
+        <artifactId>tna-dbus-java-maven-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../dbus-java-maven-parent</relativePath>
     </parent>
@@ -20,17 +20,17 @@
         <dependency>
             <groupId>cx.ath.matthew</groupId>
             <artifactId>libutils-java</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cx.ath.matthew</groupId>
             <artifactId>libdebug-java</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>cx.ath.matthew</groupId>
             <artifactId>libunix-java</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
